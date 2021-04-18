@@ -11,7 +11,7 @@ const BookForm = (props) => {
          date: props.date? props.book.date: ''
     });
     const [errorMSG , setErrorMSG]=useState('');
-    const [bookname, author, price , quantity]=book;
+    const {bookname, author, price , quantity}= book;
 
     const handleOnSubmit = (event)=> {
         event.preventDefault();
@@ -27,7 +27,7 @@ const BookForm = (props) => {
 
         if (allFieldsFilled){
             const book = {
-                id: uuidv4();
+                id: uuidv4(),
                 bookname,
                 author,
                 price,
@@ -43,7 +43,89 @@ const BookForm = (props) => {
         }
         setErrorMSG(errorMSG);
     };
-    
+    const handleInputChange = (event)=>{
+        const {name ,value} =event.target;
+        switch (name) {
+            case 'quatity':
+                if (value === '' || parseInt(value)===+value){
+                    setBook ((prevState)=> ({
+                        ...prevState,
+                        [name]: value
+                    } ));
+                }
+                break;
+            case 'price':
+                if(value ==='' || value.match(/^\d{1,}(\.\d{0,2})?$/) ){
+                    setBook((prevState)=>({
+                        ...prevState,
+                        [name]:value
+                    }));
+                }
+                break;
+            default:
+                setBook((prevState)=>({
+                    ...prevState,
+                    [name]:value
+                }));
+        }
 
+    };
+    return (
+        <div className = "main-form">
+            {errorMSG && <p className = "errorMSG">{errorMSG}</p>}
+            <Form onSubmit ={handleOnSubmit}>
+                <Form.Group controlId="name">
+                    <Form.Label>Book Name </Form.Label>
+                    <Form.Control 
+                    className ="input-Control"
+                    type="text"
+                    name="bookname"
+                    value={bookname}
+                    placeholder ="Enter Name of Book"
+                    onChange =  {handleInputChange}
+                    />
+                </Form.Group>
 
-}
+                <Form.Group controlId="author"> 
+                    <Form.Label>Book Author </Form.Label>
+                    <Form.Control 
+                    className="input-control"
+                    type="text"
+                    name="author"
+                    value={author}
+                    placeholder ="Enter Name of Author"
+                    onChange ={handleInputChange}
+                    />
+                </Form.Group>   
+                <Form.Group controlId="quantity">
+                    <Form.Label>Quantity  </Form.Label>
+                    <Form.Control 
+                    className ="input-contorl"
+                    type="text"
+                    name="quantity"
+                    value={quantity}
+                    placeholder="Enter quantity"
+                    onChange ={handleInputChange}
+                    />
+                </Form.Group>
+                <Form.Group controlId="price">
+                    <Form.Label> Price </Form.Label>
+                    <Form.Contorl 
+                    className = "input.control"
+                    type="text"
+                    name="price"
+                    value ={price}
+                    placeholder ="Enter price of Book"
+                    onChange={handleInputChange}
+                    />
+                    </Form.Group>
+                <Button variant="primary" type="submit" className="submit=btn">  
+                Submit
+                    </Button>
+                </Form>
+            </div>
+
+    );
+
+};
+export default BookForm;
