@@ -4,7 +4,8 @@ import Header from '../Components/Header';
 import AddBook from '../Components/AddBook';
 import BookList from '../Components/BookList';
 import useLocalStorage from '../hooks/useLocalStorage';
-
+import EditBook from '../Components/EditBook';
+import { Redirect } from 'react-router-dom';
 const AppRouter = ()=>{
     const [books, setBooks] = useLocalStorage('books',[]);
 
@@ -26,6 +27,12 @@ return (
                         )}
                             path ="/add"
                         />
+                        <Route render ={(props) =>(
+                            <EditBook {...props} books={books} setBooks={setBooks}/>
+                        )}
+                        path="/edit/:id"
+                        />
+                        <Route component={()=> <Redirect to="/" />} />
                         </Switch>
                     </div>
             </div>
