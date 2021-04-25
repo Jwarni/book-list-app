@@ -1,10 +1,10 @@
 import React from 'react';
-import BookForm from './BookForm'
+import BookForm from './BookForm';
 import {useParams} from 'react-router-dom';
 
 const EditBook =({history,books, setBooks})=> {
     const {id}=useParams();
-    const bookToEdit=books.find((book)=>book.id===id);
+    const bookToEdit=books.find((book)=> book.id === id);
 
     const handleOnSubmit =(book)=>{
 
